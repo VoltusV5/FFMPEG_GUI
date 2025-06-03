@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35219.272
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFmpegGuiApp", "FFmpegGuiApp.csproj", "{575625B9-19E1-44E0-A2B6-4EFB4E85A0F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFmpegGuiApp", "FFmpegGuiApp.csproj", "{2ECEFDDE-7FA8-4E4E-8A81-C75C112708E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFmpegWrapperLib", "..\FFmpegWrapperLib\FFmpegWrapperLib.csproj", "{703F01F8-C9B5-431B-9DCD-E10DE9C1EB84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresetManager", "..\PresetManager\PresetManager.csproj", "{80AF7923-8C57-459F-8822-136955F3273B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +15,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{575625B9-19E1-44E0-A2B6-4EFB4E85A0F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{575625B9-19E1-44E0-A2B6-4EFB4E85A0F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{575625B9-19E1-44E0-A2B6-4EFB4E85A0F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{575625B9-19E1-44E0-A2B6-4EFB4E85A0F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2ECEFDDE-7FA8-4E4E-8A81-C75C112708E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2ECEFDDE-7FA8-4E4E-8A81-C75C112708E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2ECEFDDE-7FA8-4E4E-8A81-C75C112708E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2ECEFDDE-7FA8-4E4E-8A81-C75C112708E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{703F01F8-C9B5-431B-9DCD-E10DE9C1EB84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{703F01F8-C9B5-431B-9DCD-E10DE9C1EB84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{703F01F8-C9B5-431B-9DCD-E10DE9C1EB84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{703F01F8-C9B5-431B-9DCD-E10DE9C1EB84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80AF7923-8C57-459F-8822-136955F3273B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80AF7923-8C57-459F-8822-136955F3273B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80AF7923-8C57-459F-8822-136955F3273B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80AF7923-8C57-459F-8822-136955F3273B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {C0999200-B668-4866-AABC-E245E4C1F937}
+		SolutionGuid = {3BE6A213-0C87-4E41-AD91-89FCFC547358}
 	EndGlobalSection
 EndGlobal

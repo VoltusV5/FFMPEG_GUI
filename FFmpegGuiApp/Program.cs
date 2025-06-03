@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using FFmpegWrapperLib;
+using PresetManager;
 
 namespace FFmpegGuiApp
 {
     internal static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            var builder = new FFmpegCommandBuilder
+            {
+                InputPath = "input.mp4",
+                OutputPath = "output.mp4",
+                Resolution = "1280:720"
+            };
+
+            string command = builder.BuildCommand();
+            Console.WriteLine(command);
         }
     }
 }
