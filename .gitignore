@@ -1,0 +1,35 @@
+# Build results
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+
+# Rider files
+.idea/
+
+# Backup & Logs
+*.log
+*.tmp
+
+# Other
+*.DS_Store
+Thumbs.db
+
+# Auto-generated packages
+packages/
+*.nupkg
+*.snupkg
+
+# Publish results
+publish/
+
+# User-specific files
+*.userprefs
+*.pidb
+
+# Resharper
+_ReSharper*/
+*.DotSettings.user
