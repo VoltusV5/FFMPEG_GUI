@@ -20,23 +20,33 @@
             base.Dispose(disposing);
         }
 
+        private Label GetLabel1()
+        {
+            return label1;
+        }
+
         #region Windows Form Designer generated code
 
         /// <summary>
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        private void InitializeComponent(Label label1)
         {
             label1 = new Label();
-            inputTextBox = new TextBox();
-            outputTextBox = new TextBox();
+            txtInputPath = new TextBox();
+            txtOutputPath = new TextBox();
             label2 = new Label();
-            resolutionTextBox = new TextBox();
             label3 = new Label();
             button1 = new Button();
             commandOutputTextBox = new TextBox();
             label4 = new Label();
+            btnBrowseInput = new Button();
+            btnSelectFolder = new Button();
+            comboResolution = new ComboBox();
+            txtCustomWidth = new TextBox();
+            locker = new Button();
+            txtCustomHeight = new TextBox();
             SuspendLayout();
             // 
             // label1
@@ -49,20 +59,22 @@
             label1.Text = "Input path:";
             label1.Click += label1_Click;
             // 
-            // inputTextBox
+            // txtInputPath
             // 
-            inputTextBox.Location = new Point(92, 46);
-            inputTextBox.Name = "inputTextBox";
-            inputTextBox.Size = new Size(100, 23);
-            inputTextBox.TabIndex = 1;
-            inputTextBox.TextChanged += textBox1_TextChanged;
+            txtInputPath.AllowDrop = true;
+            txtInputPath.Location = new Point(92, 46);
+            txtInputPath.Name = "txtInputPath";
+            txtInputPath.Size = new Size(100, 23);
+            txtInputPath.TabIndex = 1;
+            txtInputPath.TextChanged += textBox1_TextChanged;
             // 
-            // outputTextBox
+            // txtOutputPath
             // 
-            outputTextBox.Location = new Point(92, 84);
-            outputTextBox.Name = "outputTextBox";
-            outputTextBox.Size = new Size(100, 23);
-            outputTextBox.TabIndex = 3;
+            txtOutputPath.AllowDrop = true;
+            txtOutputPath.Location = new Point(92, 84);
+            txtOutputPath.Name = "txtOutputPath";
+            txtOutputPath.Size = new Size(100, 23);
+            txtOutputPath.TabIndex = 3;
             // 
             // label2
             // 
@@ -72,13 +84,6 @@
             label2.Size = new Size(78, 15);
             label2.TabIndex = 2;
             label2.Text = "Output  path:";
-            // 
-            // resolutionTextBox
-            // 
-            resolutionTextBox.Location = new Point(92, 122);
-            resolutionTextBox.Name = "resolutionTextBox";
-            resolutionTextBox.Size = new Size(100, 23);
-            resolutionTextBox.TabIndex = 5;
             // 
             // label3
             // 
@@ -117,22 +122,81 @@
             label4.Text = "Command:";
             label4.Click += label4_Click;
             // 
-            // Form1
+            // btnBrowseInput
+            // 
+            btnBrowseInput.Location = new Point(198, 46);
+            btnBrowseInput.Name = "btnBrowseInput";
+            btnBrowseInput.Size = new Size(90, 23);
+            btnBrowseInput.TabIndex = 9;
+            btnBrowseInput.Text = "BrowseInput";
+            btnBrowseInput.UseVisualStyleBackColor = true;
+            btnBrowseInput.Click += this.btnBrowseInput_Click;
+            // 
+            // btnSelectFolder
+            // 
+            btnSelectFolder.Location = new Point(198, 84);
+            btnSelectFolder.Name = "btnSelectFolder";
+            btnSelectFolder.Size = new Size(90, 23);
+            btnSelectFolder.TabIndex = 10;
+            btnSelectFolder.Text = "SelectFolder";
+            btnSelectFolder.UseVisualStyleBackColor = true;
+            btnSelectFolder.Click += this.button2_Click;
+            // 
+            // comboResolution
+            // 
+            comboResolution.FormattingEnabled = true;
+            comboResolution.Items.AddRange(new object[] { "4K (4096x2160)", "UHD (3840x2160)", "Quad HD (2560x1440)", "Full HD (1920x1080)", "HD (1280x720)", "SD NTSC Wide (854x480)", "SD NTSC (720x480)", "Custom" });
+            comboResolution.Location = new Point(92, 122);
+            comboResolution.Name = "comboResolution";
+            comboResolution.Size = new Size(100, 23);
+            comboResolution.TabIndex = 11;
+            comboResolution.SelectedIndexChanged += this.comboResolution_SelectedIndexChanged;
+            // 
+            // txtCustomWidth
+            // 
+            txtCustomWidth.Location = new Point(198, 122);
+            txtCustomWidth.Name = "txtCustomWidth";
+            txtCustomWidth.Size = new Size(90, 23);
+            txtCustomWidth.TabIndex = 12;
+            // 
+            // locker
+            // 
+            locker.Location = new Point(294, 122);
+            locker.Name = "locker";
+            locker.Size = new Size(22, 20);
+            locker.TabIndex = 13;
+            locker.Text = "button2";
+            locker.UseVisualStyleBackColor = true;
+            // 
+            // txtCustomHeight
+            // 
+            txtCustomHeight.Location = new Point(322, 122);
+            txtCustomHeight.Name = "txtCustomHeight";
+            txtCustomHeight.Size = new Size(90, 23);
+            txtCustomHeight.TabIndex = 14;
+            // 
+            // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(txtCustomHeight);
+            Controls.Add(locker);
+            Controls.Add(txtCustomWidth);
+            Controls.Add(comboResolution);
+            Controls.Add(btnSelectFolder);
+            Controls.Add(btnBrowseInput);
             Controls.Add(label4);
             Controls.Add(commandOutputTextBox);
             Controls.Add(button1);
-            Controls.Add(resolutionTextBox);
             Controls.Add(label3);
-            Controls.Add(outputTextBox);
+            Controls.Add(txtOutputPath);
             Controls.Add(label2);
-            Controls.Add(inputTextBox);
+            Controls.Add(txtInputPath);
             Controls.Add(label1);
-            Name = "Form1";
+            Name = "MainForm";
             Text = "Form1";
+            Load += this.MainForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -140,13 +204,18 @@
         #endregion
 
         private Label label1;
-        private TextBox inputTextBox;
-        private TextBox outputTextBox;
+        private TextBox txtInputPath;
+        private TextBox txtOutputPath;
         private Label label2;
-        private TextBox resolutionTextBox;
         private Label label3;
         private Button button1;
         private TextBox commandOutputTextBox;
         private Label label4;
+        private Button btnBrowseInput;
+        private Button btnSelectFolder;
+        private ComboBox comboResolution;
+        private TextBox txtCustomWidth;
+        private Button locker;
+        private TextBox txtCustomHeight;
     }
 }
