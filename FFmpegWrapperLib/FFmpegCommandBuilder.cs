@@ -2,9 +2,9 @@
 {
     public class FFmpegCommandBuilder
     {
-        public string InputPath { get; set; }
-        public string OutputPath { get; set; }
-        public string Resolution { get; set; }
+        public string InputPath { get; set; } = string.Empty;
+        public string OutputPath { get; set; } = string.Empty;
+        public string Resolution { get; set; } = string.Empty;
 
         public string BuildCommand()
         {
