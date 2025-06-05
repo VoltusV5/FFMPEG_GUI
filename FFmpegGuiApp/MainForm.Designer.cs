@@ -20,10 +20,6 @@
             base.Dispose(disposing);
         }
 
-        private Label GetLabel1()
-        {
-            return label1;
-        }
 
         #region Windows Form Designer generated code
 
@@ -31,7 +27,7 @@
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent(Label label1)
+        private void InitializeComponent()
         {
             label1 = new Label();
             txtInputPath = new TextBox();
@@ -47,6 +43,12 @@
             txtCustomWidth = new TextBox();
             locker = new Button();
             txtCustomHeight = new TextBox();
+            dataGridView1 = new DataGridView();
+            Column1 = new DataGridViewTextBoxColumn();
+            Column2 = new DataGridViewTextBoxColumn();
+            Column3 = new DataGridViewTextBoxColumn();
+            Column4 = new DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -130,7 +132,7 @@
             btnBrowseInput.TabIndex = 9;
             btnBrowseInput.Text = "BrowseInput";
             btnBrowseInput.UseVisualStyleBackColor = true;
-            btnBrowseInput.Click += this.btnBrowseInput_Click;
+            btnBrowseInput.Click += btnBrowseInput_Click;
             // 
             // btnSelectFolder
             // 
@@ -140,7 +142,7 @@
             btnSelectFolder.TabIndex = 10;
             btnSelectFolder.Text = "SelectFolder";
             btnSelectFolder.UseVisualStyleBackColor = true;
-            btnSelectFolder.Click += this.button2_Click;
+            btnSelectFolder.Click += button2_Click;
             // 
             // comboResolution
             // 
@@ -150,7 +152,7 @@
             comboResolution.Name = "comboResolution";
             comboResolution.Size = new Size(100, 23);
             comboResolution.TabIndex = 11;
-            comboResolution.SelectedIndexChanged += this.comboResolution_SelectedIndexChanged;
+            comboResolution.SelectedIndexChanged += comboResolution_SelectedIndexChanged;
             // 
             // txtCustomWidth
             // 
@@ -175,11 +177,50 @@
             txtCustomHeight.Size = new Size(90, 23);
             txtCustomHeight.TabIndex = 14;
             // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4 });
+            dataGridView1.Location = new Point(12, 273);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.Size = new Size(776, 165);
+            dataGridView1.TabIndex = 15;
+            // 
+            // Column1
+            // 
+            Column1.Frozen = true;
+            Column1.HeaderText = "Source File\n\n";
+            Column1.Name = "Column1";
+            Column1.ReadOnly = true;
+            Column1.Width = 200;
+            // 
+            // Column2
+            // 
+            Column2.Frozen = true;
+            Column2.HeaderText = "Preset";
+            Column2.Name = "Column2";
+            Column2.ReadOnly = true;
+            // 
+            // Column3
+            // 
+            Column3.Frozen = true;
+            Column3.HeaderText = "Output Folder\n\n";
+            Column3.Name = "Column3";
+            Column3.ReadOnly = true;
+            // 
+            // Column4
+            // 
+            Column4.Frozen = true;
+            Column4.HeaderText = "Output Filename (w/o extension)";
+            Column4.Name = "Column4";
+            Column4.ReadOnly = true;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(dataGridView1);
             Controls.Add(txtCustomHeight);
             Controls.Add(locker);
             Controls.Add(txtCustomWidth);
@@ -196,7 +237,8 @@
             Controls.Add(label1);
             Name = "MainForm";
             Text = "Form1";
-            Load += this.MainForm_Load;
+            Load += MainForm_Load;
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -217,5 +259,10 @@
         private TextBox txtCustomWidth;
         private Button locker;
         private TextBox txtCustomHeight;
+        private DataGridView dataGridView1;
+        private DataGridViewTextBoxColumn Column1;
+        private DataGridViewTextBoxColumn Column2;
+        private DataGridViewTextBoxColumn Column3;
+        private DataGridViewTextBoxColumn Column4;
     }
 }

@@ -8,18 +8,54 @@ namespace FFmpegGuiApp
         public MainForm()
 
         {
-            InitializeComponent(GetLabel1());
+            InitializeComponent();
+            this.Load += new System.EventHandler(this.MainForm_Load);
+
+            SetupDataGrid();
+            this.AllowDrop = true;
+            this.DragEnter += Form_DragEnter;
+            this.DragDrop += Form_DragDrop;
         }
+
+        private void Form_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+        }
+
+        private void Form_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data != null && e.Data.GetData(DataFormats.FileDrop) is string[] files)
+            {
+                foreach (var file in files)
+                {
+                    if (File.Exists(file)) AddFileToGrid(file);
+                }
+            }
+        }
+
+        private void AddFileToGrid(string path)
+        {
+            string filename = Path.GetFileNameWithoutExtension(path);
+            string outputFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            dataGridView1.Rows.Add(path, "Default", outputFolder, filename + "_converted");
+        }
+
+
+
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             txtInputPath.AllowDrop = true;
-            txtInputPath.DragEnter += new DragEventHandler((s, e) => {
-                if (e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop)) 
+            txtInputPath.DragEnter += new DragEventHandler((s, e) =>
+            {
+                if (e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop))
                     e.Effect = DragDropEffects.Copy;
             });
 
-            txtInputPath.DragDrop += new DragEventHandler((s, e) => {
+            txtInputPath.DragDrop += new DragEventHandler((s, e) =>
+            {
 
                 if ((e.Data?.GetData(DataFormats.FileDrop) is string[] files) && files.Length > 0)
                 {
@@ -35,6 +71,7 @@ namespace FFmpegGuiApp
 
         private void btnSelectFolder_Click(object sender, EventArgs e)
         {
+            /*
             using (var dialog = new FolderBrowserDialog())
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
@@ -42,10 +79,21 @@ namespace FFmpegGuiApp
                     string inputFileName = Path.GetFileNameWithoutExtension(txtInputPath.Text);
                     txtOutputPath.Text = Path.Combine(dialog.SelectedPath, inputFileName + "_converted.mp4");
                 }
+            }*/
+
+            using FolderBrowserDialog fbd = new FolderBrowserDialog();
+
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Cells["OutputFolder"].Value = fbd.SelectedPath;
+                }
             }
+
         }
 
-        
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
@@ -57,6 +105,7 @@ namespace FFmpegGuiApp
         }
         private void btnBrowseInput_Click(object sender, EventArgs e)
         {
+            /*
             using (var dialog = new FolderBrowserDialog())
             {
                 if (dialog.ShowDialog() == DialogResult.OK)
@@ -64,6 +113,17 @@ namespace FFmpegGuiApp
                     string inputFileName = Path.GetFileNameWithoutExtension(txtInputPath.Text);
                     txtOutputPath.Text = Path.Combine(dialog.SelectedPath, inputFileName + "_converted.mp4");
                 }
+            }*/
+            using OpenFileDialog ofd = new OpenFileDialog
+            {
+                Multiselect = true,
+                Filter = "Media files|*.mp4;*.avi;*.mov;*.mkv;*.mp3;*.wav;*.flac|All files|*.*"
+            };
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                foreach (var file in ofd.FileNames)
+                    AddFileToGrid(file);
             }
 
         }
@@ -89,7 +149,7 @@ namespace FFmpegGuiApp
 
         private void label4_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -155,6 +215,33 @@ namespace FFmpegGuiApp
             {
                 MessageBox.Show("Error running FFmpeg: " + ex.Message);
             }
+        }
+
+        private void SetupDataGrid()
+        {
+            dataGridView1.AllowDrop = true;
+
+            if (dataGridView1.Columns.Count == 0) // защититься от повторного добавления
+            {
+                dataGridView1.Columns.Add("SourceFile", "Source File");
+                dataGridView1.Columns.Add("Preset", "Preset");
+                dataGridView1.Columns.Add("OutputFolder", "Output Folder");
+                dataGridView1.Columns.Add("OutputFilename", "Output Filename (w/o extension)");
+            }
+        }
+
+        private void AddFileToGrid(string path)
+        {
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (row.Cells["SourceFile"].Value?.ToString() == path)
+                    return; // уже есть
+            }
+
+            string filename = Path.GetFileNameWithoutExtension(path);
+            string outputFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            dataGridView1.Rows.Add(path, "Default", outputFolder, filename + "_converted");
         }
 
 
