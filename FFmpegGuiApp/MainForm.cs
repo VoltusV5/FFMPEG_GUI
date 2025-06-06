@@ -10,7 +10,7 @@ namespace FFmpegGuiApp
         {
             InitializeComponent();
             StyleDataGridView();
-            this.Load += new System.EventHandler(this.MainForm_Load);
+            
 
             
 
@@ -51,12 +51,6 @@ namespace FFmpegGuiApp
             grid.GridColor = Color.LightGray;
             grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-            // јвтораст€жение колонок (если нужно)
-            foreach (DataGridViewColumn col in grid.Columns)
-            {
-                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            }
         }
 
         private void Form_DragEnter(object sender, DragEventArgs e)
@@ -67,10 +61,7 @@ namespace FFmpegGuiApp
 
         private void Form_DragDrop(object sender, DragEventArgs e)
         {
-            
-
-
-
+           
             if (e.Data != null && e.Data.GetData(DataFormats.FileDrop) is string[] files)
             {
                 foreach (var file in files)
@@ -80,7 +71,7 @@ namespace FFmpegGuiApp
             }
         }
 
-        private void AddFileToGrid(string path)
+        private void AddUniqueFileToGrid(string path)
         {
             string filename = Path.GetFileNameWithoutExtension(path);
             string outputFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -98,53 +89,9 @@ namespace FFmpegGuiApp
             
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            txtInputPath.AllowDrop = true;
-            txtInputPath.DragEnter += new DragEventHandler((s, e) =>
-            {
-                if (e.Data != null && e.Data.GetDataPresent(DataFormats.FileDrop))
-                    e.Effect = DragDropEffects.Copy;
-            });
+       
 
-            txtInputPath.DragDrop += new DragEventHandler((s, e) =>
-            {
-
-                if ((e.Data?.GetData(DataFormats.FileDrop) is string[] files) && files.Length > 0)
-                {
-                    txtInputPath.Text = files[0];
-
-                    // јвтоматически предложить им€ выходного файла
-                    string inputFileName = Path.GetFileNameWithoutExtension(files[0]);
-                    txtOutputPath.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), inputFileName + "_converted.mp4");
-                }
-            });
-
-        }
-
-        private void btnSelectFolder_Click(object sender, EventArgs e)
-        {
-            /*
-            using (var dialog = new FolderBrowserDialog())
-            {
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    string inputFileName = Path.GetFileNameWithoutExtension(txtInputPath.Text);
-                    txtOutputPath.Text = Path.Combine(dialog.SelectedPath, inputFileName + "_converted.mp4");
-                }
-            }*/
-
-            using FolderBrowserDialog fbd = new FolderBrowserDialog();
-
-            if (fbd.ShowDialog() == DialogResult.OK)
-            {
-                foreach (DataGridViewRow row in dataGridView1.Rows)
-                {
-                    row.Cells["OutputFolder"].Value = fbd.SelectedPath;
-                }
-            }
-
-        }
+        
 
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -156,30 +103,7 @@ namespace FFmpegGuiApp
         {
 
         }
-        private void btnBrowseInput_Click(object sender, EventArgs e)
-        {
-            /*
-            using (var dialog = new FolderBrowserDialog())
-            {
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    string inputFileName = Path.GetFileNameWithoutExtension(txtInputPath.Text);
-                    txtOutputPath.Text = Path.Combine(dialog.SelectedPath, inputFileName + "_converted.mp4");
-                }
-            }*/
-            using OpenFileDialog ofd = new OpenFileDialog
-            {
-                Multiselect = true,
-                Filter = "Media files|*.mp4;*.avi;*.mov;*.mkv;*.mp3;*.wav;*.flac|All files|*.*"
-            };
-
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                foreach (var file in ofd.FileNames)
-                    AddFileToGrid(file);
-            }
-
-        }
+        
         private void button2_Click(object sender, EventArgs e)
         {
 
@@ -205,97 +129,137 @@ namespace FFmpegGuiApp
 
         }
 
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            // «десь можешь выполнить инициализацию при запуске формы, если нужно
+        }
+        private void btnBrowseInput_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "Video files|*.mp4;*.mov;*.avi;*.mkv|All files|*.*";
+                ofd.Multiselect = true;
+
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    foreach (var file in ofd.FileNames)
+                    {
+                        AddUniqueFileToGrid(file); // или AddFileToGrid(file) Ч в зависимости от логики
+                    }
+                }
+            }
+        }
+
+
+
         private void button1_Click(object sender, EventArgs e)
         {
-            string inputPath = txtInputPath.Text;
-            string outputPath = txtOutputPath.Text;
-
-            if (!File.Exists(inputPath))
+            foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                MessageBox.Show("Input file does not exist.");
-                return;
-            }
+                if (row.IsNewRow) continue; // пропустить пустую строку
 
-            if (string.IsNullOrEmpty(outputPath))
-            {
-                MessageBox.Show("Please specify an output path.");
-                return;
-            }
+                string inputPath = row.Cells["SourceFile"].Value?.ToString();
+                string outputFolder = row.Cells["OutputFolder"].Value?.ToString();
+                string outputFilename = row.Cells["OutputFilename"].Value?.ToString();
+                string preset = row.Cells["Preset"].Value?.ToString(); // пока не используешь
 
-            if (comboResolution.SelectedItem is not string resolution || string.IsNullOrEmpty(resolution))
-            {
-                MessageBox.Show("Please select a resolution.");
-                return;
-            }
+                if (string.IsNullOrWhiteSpace(inputPath) || string.IsNullOrWhiteSpace(outputFolder) || string.IsNullOrWhiteSpace(outputFilename))
+                    continue; // пропустить неполные строки
 
-            if (resolution == "Custom")
-            {
-                if (!int.TryParse(txtCustomWidth.Text, out int width) || !int.TryParse(txtCustomHeight.Text, out int height))
+                string fullOutputPath = Path.Combine(outputFolder, outputFilename + ".mp4");
+
+                // ѕример разрешени€ (временное значение Ч можно из отдельной €чейки тоже брать)
+                string resolution = row.Cells["Resolution"].Value?.ToString() ?? "1280:720";
+
+
+                string ffmpegArgs = $"-i \"{inputPath}\" -vf scale={resolution} \"{fullOutputPath}\"";
+
+                Process ffmpeg = new Process();
+                string ffmpegPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ffmpeg", "ffmpeg.exe");
+                ffmpeg.StartInfo.FileName = ffmpegPath;
+
+                ffmpeg.StartInfo.Arguments = ffmpegArgs;
+                ffmpeg.StartInfo.CreateNoWindow = true;
+                ffmpeg.StartInfo.UseShellExecute = false;
+                ffmpeg.StartInfo.RedirectStandardOutput = true;
+                ffmpeg.StartInfo.RedirectStandardError = true;
+                ffmpeg.OutputDataReceived += (s, ea) => Console.WriteLine(ea.Data);
+                ffmpeg.ErrorDataReceived += (s, ea) => Console.WriteLine(ea.Data);
+
+                try
                 {
-                    MessageBox.Show("Invalid custom resolution values.");
-                    return;
+                    ffmpeg.Start();
+                    ffmpeg.BeginOutputReadLine();
+                    ffmpeg.BeginErrorReadLine();
+                    ffmpeg.WaitForExit();
                 }
-                resolution = $"{width}:{height}";
-            }
-            else
-            {
-                int start = resolution.IndexOf('(') + 1;
-                int end = resolution.IndexOf(')');
-                resolution = resolution.Substring(start, end - start).Replace("x", ":");
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error running FFmpeg: " + ex.Message);
+                }
             }
 
-            string ffmpegArgs = $"-i \"{inputPath}\" -vf scale={resolution} \"{outputPath}\"";
-
-            Process ffmpeg = new Process();
-            ffmpeg.StartInfo.FileName = "ffmpeg";
-            ffmpeg.StartInfo.Arguments = ffmpegArgs;
-            ffmpeg.StartInfo.CreateNoWindow = true;
-            ffmpeg.StartInfo.UseShellExecute = false;
-            ffmpeg.StartInfo.RedirectStandardOutput = true;
-            ffmpeg.StartInfo.RedirectStandardError = true;
-            ffmpeg.OutputDataReceived += (s, ea) => Console.WriteLine(ea.Data);
-            ffmpeg.ErrorDataReceived += (s, ea) => Console.WriteLine(ea.Data);
-
-            try
-            {
-                ffmpeg.Start();
-                ffmpeg.BeginOutputReadLine();
-                ffmpeg.BeginErrorReadLine();
-                ffmpeg.WaitForExit();
-                MessageBox.Show("Conversion complete.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error running FFmpeg: " + ex.Message);
-            }
         }
 
         private void SetupDataGrid()
         {
             dataGridView1.AllowDrop = true;
 
-            if (dataGridView1.Columns.Count == 0) // защититьс€ от повторного добавлени€
+            if (dataGridView1.Columns.Count == 0)
             {
-                dataGridView1.Columns.Add("SourceFile", "Source File");
-                dataGridView1.Columns.Add("Preset", "Preset");
-                dataGridView1.Columns.Add("OutputFolder", "Output Folder");
-                dataGridView1.Columns.Add("OutputFilename", "Output Filename (w/o extension)");
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "SourceFile",
+                    HeaderText = "Source File"
+                });
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "Preset",
+                    HeaderText = "Preset"
+                });
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "OutputFolder",
+                    HeaderText = "Output Folder"
+                });
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "OutputFilename",
+                    HeaderText = "Output Filename"
+                });
+                dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+                {
+                    Name = "Resolution",
+                    HeaderText = "Resolution"
+                });
             }
         }
 
+
         private void AddFileToGrid(string path)
         {
+            // Ѕезопасно добавл€ем столбцы, если ещЄ не добавлены
+            if (!dataGridView1.Columns.Contains("SourceFile"))
+            {
+                SetupDataGrid();
+            }
+
+            // ѕровер€ем Ч уже есть такой файл?
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                if (row.Cells["SourceFile"].Value?.ToString() == path)
-                    return; // уже есть
+                if (dataGridView1.Columns.Contains("SourceFile"))
+                {
+                    if (row.Cells["SourceFile"].Value?.ToString() == path)
+                        return;
+                }
             }
 
             string filename = Path.GetFileNameWithoutExtension(path);
             string outputFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-            dataGridView1.Rows.Add(path, "Default", outputFolder, filename + "_converted");
+            dataGridView1.Rows.Add(path, "Default", outputFolder, filename + "_converted", "1280:720");
         }
+
 
 
     }
