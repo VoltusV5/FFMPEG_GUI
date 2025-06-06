@@ -29,63 +29,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            txtInputPath = new TextBox();
-            txtOutputPath = new TextBox();
-            label2 = new Label();
             label3 = new Label();
             button1 = new Button();
             commandOutputTextBox = new TextBox();
             label4 = new Label();
-            btnBrowseInput = new Button();
-            btnSelectFolder = new Button();
+            Add_Source = new Button();
+            Change_Output_Path = new Button();
             comboResolution = new ComboBox();
             txtCustomWidth = new TextBox();
             locker = new Button();
             txtCustomHeight = new TextBox();
             dataGridView1 = new DataGridView();
+            Go = new Button();
+            Start_Conversion = new DataGridViewTextBoxColumn();
+            Info = new DataGridViewTextBoxColumn();
+            Preset_Info = new DataGridViewTextBoxColumn();
             Column1 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
             Column3 = new DataGridViewTextBoxColumn();
             Column4 = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(8, 49);
-            label1.Name = "label1";
-            label1.Size = new Size(65, 15);
-            label1.TabIndex = 0;
-            label1.Text = "Input path:";
-            label1.Click += label1_Click;
-            // 
-            // txtInputPath
-            // 
-            txtInputPath.AllowDrop = true;
-            txtInputPath.Location = new Point(92, 46);
-            txtInputPath.Name = "txtInputPath";
-            txtInputPath.Size = new Size(100, 23);
-            txtInputPath.TabIndex = 1;
-            txtInputPath.TextChanged += textBox1_TextChanged;
-            // 
-            // txtOutputPath
-            // 
-            txtOutputPath.AllowDrop = true;
-            txtOutputPath.Location = new Point(92, 84);
-            txtOutputPath.Name = "txtOutputPath";
-            txtOutputPath.Size = new Size(100, 23);
-            txtOutputPath.TabIndex = 3;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(8, 87);
-            label2.Name = "label2";
-            label2.Size = new Size(78, 15);
-            label2.TabIndex = 2;
-            label2.Text = "Output  path:";
             // 
             // label3
             // 
@@ -124,25 +88,25 @@
             label4.Text = "Command:";
             label4.Click += label4_Click;
             // 
-            // btnBrowseInput
+            // Add_Source
             // 
-            btnBrowseInput.Location = new Point(198, 46);
-            btnBrowseInput.Name = "btnBrowseInput";
-            btnBrowseInput.Size = new Size(90, 23);
-            btnBrowseInput.TabIndex = 9;
-            btnBrowseInput.Text = "BrowseInput";
-            btnBrowseInput.UseVisualStyleBackColor = true;
-            btnBrowseInput.Click += btnBrowseInput_Click;
+            Add_Source.Location = new Point(102, 45);
+            Add_Source.Name = "Add_Source";
+            Add_Source.Size = new Size(90, 23);
+            Add_Source.TabIndex = 9;
+            Add_Source.Text = "Add Source(s)";
+            Add_Source.UseVisualStyleBackColor = true;
+            Add_Source.Click += btnBrowseInput_Click;
             // 
-            // btnSelectFolder
+            // Change_Output_Path
             // 
-            btnSelectFolder.Location = new Point(198, 84);
-            btnSelectFolder.Name = "btnSelectFolder";
-            btnSelectFolder.Size = new Size(90, 23);
-            btnSelectFolder.TabIndex = 10;
-            btnSelectFolder.Text = "SelectFolder";
-            btnSelectFolder.UseVisualStyleBackColor = true;
-            btnSelectFolder.Click += button2_Click;
+            Change_Output_Path.Location = new Point(412, 45);
+            Change_Output_Path.Name = "Change_Output_Path";
+            Change_Output_Path.Size = new Size(139, 23);
+            Change_Output_Path.TabIndex = 10;
+            Change_Output_Path.Text = "Change_Output_Path";
+            Change_Output_Path.UseVisualStyleBackColor = true;
+            Change_Output_Path.Click += button2_Click;
             // 
             // comboResolution
             // 
@@ -165,9 +129,9 @@
             // 
             locker.Location = new Point(294, 122);
             locker.Name = "locker";
-            locker.Size = new Size(22, 20);
+            locker.Size = new Size(22, 23);
             locker.TabIndex = 13;
-            locker.Text = "button2";
+            locker.Text = "🔒";
             locker.UseVisualStyleBackColor = true;
             // 
             // txtCustomHeight
@@ -180,22 +144,63 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4 });
-            dataGridView1.Location = new Point(12, 273);
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Start_Conversion, Info, Preset_Info, Column1, Column2, Column3, Column4 });
+            dataGridView1.Location = new Point(12, 303);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(776, 165);
+            dataGridView1.RowHeadersWidth = 10;
+            dataGridView1.Size = new Size(776, 135);
             dataGridView1.TabIndex = 15;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            // 
+            // Go
+            // 
+            Go.Location = new Point(686, 223);
+            Go.Name = "Go";
+            Go.Size = new Size(75, 23);
+            Go.TabIndex = 16;
+            Go.Text = "Go";
+            Go.UseVisualStyleBackColor = true;
+            Go.Click += button2_Click_1;
+            // 
+            // Start_Conversion
+            // 
+            Start_Conversion.FillWeight = 40F;
+            Start_Conversion.Frozen = true;
+            Start_Conversion.HeaderText = "";
+            Start_Conversion.Name = "Start_Conversion";
+            Start_Conversion.ReadOnly = true;
+            Start_Conversion.Width = 30;
+            // 
+            // Info
+            // 
+            Info.FillWeight = 40F;
+            Info.Frozen = true;
+            Info.HeaderText = "";
+            Info.Name = "Info";
+            Info.ReadOnly = true;
+            Info.Width = 30;
+            // 
+            // Preset_Info
+            // 
+            Preset_Info.FillWeight = 40F;
+            Preset_Info.Frozen = true;
+            Preset_Info.HeaderText = "";
+            Preset_Info.Name = "Preset_Info";
+            Preset_Info.ReadOnly = true;
+            Preset_Info.Width = 30;
             // 
             // Column1
             // 
+            Column1.FillWeight = 40F;
             Column1.Frozen = true;
             Column1.HeaderText = "Source File\n\n";
             Column1.Name = "Column1";
             Column1.ReadOnly = true;
-            Column1.Width = 200;
+            Column1.Width = 150;
             // 
             // Column2
             // 
+            Column2.FillWeight = 40F;
             Column2.Frozen = true;
             Column2.HeaderText = "Preset";
             Column2.Name = "Column2";
@@ -203,38 +208,39 @@
             // 
             // Column3
             // 
+            Column3.FillWeight = 40F;
             Column3.Frozen = true;
             Column3.HeaderText = "Output Folder\n\n";
             Column3.Name = "Column3";
             Column3.ReadOnly = true;
+            Column3.Width = 150;
             // 
             // Column4
             // 
+            Column4.FillWeight = 40F;
             Column4.Frozen = true;
             Column4.HeaderText = "Output Filename (w/o extension)";
             Column4.Name = "Column4";
             Column4.ReadOnly = true;
+            Column4.Width = 250;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(Go);
             Controls.Add(dataGridView1);
             Controls.Add(txtCustomHeight);
             Controls.Add(locker);
             Controls.Add(txtCustomWidth);
             Controls.Add(comboResolution);
-            Controls.Add(btnSelectFolder);
-            Controls.Add(btnBrowseInput);
+            Controls.Add(Change_Output_Path);
+            Controls.Add(Add_Source);
             Controls.Add(label4);
             Controls.Add(commandOutputTextBox);
             Controls.Add(button1);
             Controls.Add(label3);
-            Controls.Add(txtOutputPath);
-            Controls.Add(label2);
-            Controls.Add(txtInputPath);
-            Controls.Add(label1);
             Name = "MainForm";
             Text = "Form1";
             Load += MainForm_Load;
@@ -243,23 +249,25 @@
             PerformLayout();
         }
 
-        #endregion
+        
 
-        private Label label1;
-        private TextBox txtInputPath;
-        private TextBox txtOutputPath;
-        private Label label2;
+
+        #endregion
         private Label label3;
         private Button button1;
         private TextBox commandOutputTextBox;
         private Label label4;
-        private Button btnBrowseInput;
-        private Button btnSelectFolder;
+        private Button Add_Source;
+        private Button Change_Output_Path;
         private ComboBox comboResolution;
         private TextBox txtCustomWidth;
         private Button locker;
         private TextBox txtCustomHeight;
         private DataGridView dataGridView1;
+        private Button Go;
+        private DataGridViewTextBoxColumn Start_Conversion;
+        private DataGridViewTextBoxColumn Info;
+        private DataGridViewTextBoxColumn Preset_Info;
         private DataGridViewTextBoxColumn Column1;
         private DataGridViewTextBoxColumn Column2;
         private DataGridViewTextBoxColumn Column3;

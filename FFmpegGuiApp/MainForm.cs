@@ -9,12 +9,54 @@ namespace FFmpegGuiApp
 
         {
             InitializeComponent();
+            StyleDataGridView();
             this.Load += new System.EventHandler(this.MainForm_Load);
+
+            
+
 
             SetupDataGrid();
             this.AllowDrop = true;
             this.DragEnter += Form_DragEnter;
             this.DragDrop += Form_DragDrop;
+        }
+
+
+        private void StyleDataGridView()
+        {
+            var grid = dataGridView1;
+
+            grid.BorderStyle = BorderStyle.None;
+            grid.BackgroundColor = Color.White;
+            grid.EnableHeadersVisualStyles = false;
+
+            // Шапка
+            grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240);
+            grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            grid.ColumnHeadersHeight = 32;
+            grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+
+            // Строки
+            grid.DefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
+            grid.DefaultCellStyle.ForeColor = Color.Black;
+            grid.DefaultCellStyle.BackColor = Color.White;
+            grid.DefaultCellStyle.SelectionBackColor = Color.FromArgb(220, 235, 255);
+            grid.DefaultCellStyle.SelectionForeColor = Color.Black;
+            grid.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+
+            grid.RowTemplate.Height = 28;
+            grid.RowHeadersVisible = false;
+            grid.GridColor = Color.LightGray;
+            grid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+
+            // Авторастяжение колонок (если нужно)
+            foreach (DataGridViewColumn col in grid.Columns)
+            {
+                col.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
         }
 
         private void Form_DragEnter(object sender, DragEventArgs e)
@@ -25,6 +67,10 @@ namespace FFmpegGuiApp
 
         private void Form_DragDrop(object sender, DragEventArgs e)
         {
+            
+
+
+
             if (e.Data != null && e.Data.GetData(DataFormats.FileDrop) is string[] files)
             {
                 foreach (var file in files)
@@ -42,8 +88,15 @@ namespace FFmpegGuiApp
             dataGridView1.Rows.Add(path, "Default", outputFolder, filename + "_converted");
         }
 
+        private void button2_Click_1(object sender, EventArgs e)
+        {
 
+        }
 
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
+        }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
