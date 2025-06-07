@@ -1,4 +1,4 @@
-using System.Diagnostics;
+п»їusing System.Diagnostics;
 using System.Windows.Forms;
 
 namespace FFmpegGuiApp
@@ -9,13 +9,14 @@ namespace FFmpegGuiApp
 
         {
             InitializeComponent();
-            StyleDataGridView();
-            
-
-            
-
-
             SetupDataGrid();
+            StyleDataGridView();
+
+
+
+
+
+
             this.AllowDrop = true;
             this.DragEnter += Form_DragEnter;
             this.DragDrop += Form_DragDrop;
@@ -30,7 +31,7 @@ namespace FFmpegGuiApp
             grid.BackgroundColor = Color.White;
             grid.EnableHeadersVisualStyles = false;
 
-            // Шапка
+            // РЁР°РїРєР°
             grid.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240);
             grid.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             grid.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
@@ -38,7 +39,7 @@ namespace FFmpegGuiApp
             grid.ColumnHeadersHeight = 32;
             grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 
-            // Строки
+            // РЎС‚СЂРѕРєРё
             grid.DefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Regular);
             grid.DefaultCellStyle.ForeColor = Color.Black;
             grid.DefaultCellStyle.BackColor = Color.White;
@@ -61,7 +62,7 @@ namespace FFmpegGuiApp
 
         private void Form_DragDrop(object sender, DragEventArgs e)
         {
-           
+
             if (e.Data != null && e.Data.GetData(DataFormats.FileDrop) is string[] files)
             {
                 foreach (var file in files)
@@ -86,12 +87,12 @@ namespace FFmpegGuiApp
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+
         }
 
-       
 
-        
+
+
 
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -103,7 +104,7 @@ namespace FFmpegGuiApp
         {
 
         }
-        
+
         private void button2_Click(object sender, EventArgs e)
         {
 
@@ -118,7 +119,7 @@ namespace FFmpegGuiApp
             }
             else
             {
-                MessageBox.Show("Выберите разрешение.");
+                MessageBox.Show("Р’С‹Р±РµСЂРёС‚Рµ СЂР°Р·СЂРµС€РµРЅРёРµ.");
             }
 
         }
@@ -131,7 +132,7 @@ namespace FFmpegGuiApp
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            // Здесь можешь выполнить инициализацию при запуске формы, если нужно
+            // Р—РґРµСЃСЊ РјРѕР¶РµС€СЊ РІС‹РїРѕР»РЅРёС‚СЊ РёРЅРёС†РёР°Р»РёР·Р°С†РёСЋ РїСЂРё Р·Р°РїСѓСЃРєРµ С„РѕСЂРјС‹, РµСЃР»Рё РЅСѓР¶РЅРѕ
         }
         private void btnBrowseInput_Click(object sender, EventArgs e)
         {
@@ -144,7 +145,7 @@ namespace FFmpegGuiApp
                 {
                     foreach (var file in ofd.FileNames)
                     {
-                        AddUniqueFileToGrid(file); // или AddFileToGrid(file) — в зависимости от логики
+                        AddUniqueFileToGrid(file); // РёР»Рё AddFileToGrid(file) вЂ” РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ Р»РѕРіРёРєРё
                     }
                 }
             }
@@ -156,19 +157,19 @@ namespace FFmpegGuiApp
         {
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                if (row.IsNewRow) continue; // пропустить пустую строку
+                if (row.IsNewRow) continue; // РїСЂРѕРїСѓСЃС‚РёС‚СЊ РїСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ
 
-                string inputPath = row.Cells["SourceFile"].Value?.ToString();
-                string outputFolder = row.Cells["OutputFolder"].Value?.ToString();
-                string outputFilename = row.Cells["OutputFilename"].Value?.ToString();
-                string preset = row.Cells["Preset"].Value?.ToString(); // пока не используешь
+                string inputPath = row.Cells["Column1"].Value?.ToString();
+                string outputFolder = row.Cells["Column3"].Value?.ToString();
+                string outputFilename = row.Cells["Column4"].Value?.ToString();
+                string preset = row.Cells["Column2"].Value?.ToString(); // РїРѕРєР° РЅРµ РёСЃРїРѕР»СЊР·СѓРµС€СЊ
 
                 if (string.IsNullOrWhiteSpace(inputPath) || string.IsNullOrWhiteSpace(outputFolder) || string.IsNullOrWhiteSpace(outputFilename))
-                    continue; // пропустить неполные строки
+                    continue; // РїСЂРѕРїСѓСЃС‚РёС‚СЊ РЅРµРїРѕР»РЅС‹Рµ СЃС‚СЂРѕРєРё
 
                 string fullOutputPath = Path.Combine(outputFolder, outputFilename + ".mp4");
 
-                // Пример разрешения (временное значение — можно из отдельной ячейки тоже брать)
+                // РџСЂРёРјРµСЂ СЂР°Р·СЂРµС€РµРЅРёСЏ (РІСЂРµРјРµРЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ вЂ” РјРѕР¶РЅРѕ РёР· РѕС‚РґРµР»СЊРЅРѕР№ СЏС‡РµР№РєРё С‚РѕР¶Рµ Р±СЂР°С‚СЊ)
                 string resolution = row.Cells["Resolution"].Value?.ToString() ?? "1280:720";
 
 
@@ -201,30 +202,73 @@ namespace FFmpegGuiApp
 
         }
 
+        private Image ByteArrayToImage(byte[] bytes)
+        {
+            using (var ms = new MemoryStream(bytes))
+            {
+                return Image.FromStream(ms);
+            }
+        }
+
+
         private void SetupDataGrid()
         {
             dataGridView1.AllowDrop = true;
+            dataGridView1.RowTemplate.Height = 32;
 
             if (dataGridView1.Columns.Count == 0)
             {
+                // Р—Р°РјРµРЅРёРј РёРєРѕРЅРєРё РЅР° С‚РµРєСЃС‚РѕРІС‹Рµ РєРЅРѕРїРєРё С‡РµСЂРµР· DataGridViewButtonColumn
+                var startCol = new DataGridViewButtonColumn
+                {
+                    Name = "Start_Conversion",
+                    HeaderText = "",
+                    Width = 40,
+                    Text = "в–¶", // play symbol
+                    UseColumnTextForButtonValue = true
+                };
+                dataGridView1.Columns.Add(startCol);
+
+                var infoCol = new DataGridViewButtonColumn
+                {
+                    Name = "Info",
+                    HeaderText = "",
+                    Width = 40,
+                    Text = "в„№", // info symbol
+                    UseColumnTextForButtonValue = true
+                };
+                dataGridView1.Columns.Add(infoCol);
+
+                var presetCol = new DataGridViewButtonColumn
+                {
+                    Name = "Preset_Info",
+                    HeaderText = "",
+                    Width = 40,
+                    Text = "рџ› ", // gearwrench symbol
+                    UseColumnTextForButtonValue = true
+                };
+                dataGridView1.Columns.Add(presetCol);
+
+                // РћСЃС‚Р°Р»СЊРЅС‹Рµ С‚РµРєСЃС‚РѕРІС‹Рµ РєРѕР»РѕРЅРєРё
                 dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
                 {
-                    Name = "SourceFile",
-                    HeaderText = "Source File"
+                    Name = "Column1", // SourceFile
+                    HeaderText = "Source File",
+                    AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
                 });
                 dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
                 {
-                    Name = "Preset",
+                    Name = "Column2", // Preset
                     HeaderText = "Preset"
                 });
                 dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
                 {
-                    Name = "OutputFolder",
+                    Name = "Column3", // OutputFolder
                     HeaderText = "Output Folder"
                 });
                 dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
                 {
-                    Name = "OutputFilename",
+                    Name = "Column4", // OutputFilename
                     HeaderText = "Output Filename"
                 });
                 dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
@@ -236,31 +280,38 @@ namespace FFmpegGuiApp
         }
 
 
+
+
+
+
+
         private void AddFileToGrid(string path)
         {
-            // Безопасно добавляем столбцы, если ещё не добавлены
-            if (!dataGridView1.Columns.Contains("SourceFile"))
-            {
-                SetupDataGrid();
-            }
-
-            // Проверяем — уже есть такой файл?
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                if (dataGridView1.Columns.Contains("SourceFile"))
-                {
-                    if (row.Cells["SourceFile"].Value?.ToString() == path)
-                        return;
-                }
+                if (row.Cells["Column1"].Value?.ToString() == path)
+                    return; // РЈР¶Рµ РґРѕР±Р°РІР»РµРЅ
             }
 
             string filename = Path.GetFileNameWithoutExtension(path);
             string outputFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-            dataGridView1.Rows.Add(path, "Default", outputFolder, filename + "_converted", "1280:720");
+            int rowIndex = dataGridView1.Rows.Add();
+            var newRow = dataGridView1.Rows[rowIndex];
+
+            // РљРЅРѕРїРєРё РѕСЃС‚Р°РІРёРј РїСѓСЃС‚С‹РјРё вЂ” С‚РµРєСЃС‚ СѓР¶Рµ Р·Р°РґР°РЅ РІ РєРѕР»РѕРЅРєРµ
+            // Р•СЃР»Рё РЅСѓР¶РЅРѕ, РјРѕР¶РЅРѕ РґРѕР±Р°РІРёС‚СЊ СѓСЃР»РѕРІРёСЏ РґР»СЏ РёР·РјРµРЅРµРЅРёСЏ С‚РµРєСЃС‚Р°
+
+            newRow.Cells["Start_Conversion"].Value = "в–¶";
+            newRow.Cells["Info"].Value = "в„№";
+            newRow.Cells["Preset_Info"].Value = "рџ› ";
+
+            // РРЅС„РѕСЂРјР°С†РёРѕРЅРЅС‹Рµ РїРѕР»СЏ
+            newRow.Cells["Column1"].Value = path;
+            newRow.Cells["Column2"].Value = "Default";
+            newRow.Cells["Column3"].Value = outputFolder;
+            newRow.Cells["Column4"].Value = filename + "_converted";
         }
-
-
 
     }
 }
